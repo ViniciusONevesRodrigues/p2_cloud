@@ -3,13 +3,14 @@ const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
+const path = require('path');
 const mysql = require('mysql2');
 
 const app = express();
-const PORT = 3000;
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
