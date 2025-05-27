@@ -84,6 +84,7 @@ app.post('/alunos', [
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server rodando na porta ${port}`);
 });
