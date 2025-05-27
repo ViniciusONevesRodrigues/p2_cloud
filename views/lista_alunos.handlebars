@@ -1,0 +1,75 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background-color: #f4f7f8;
+    color: #333;
+  }
+
+  h2 {
+    color: #0078D7;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #0078D7;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  tr:hover {
+    background-color: #f1f9ff;
+  }
+  
+  a {
+    color: #0078D7;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<h2>Lista de Alunos Cadastrados</h2>
+
+<p><a href="/">Voltar ao formulário de cadastro</a></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome Completo</th>
+      <th>Usuário</th>
+      <th>Email</th>
+      <th>Observação</th>
+      <th>Data Cadastro</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each alunos}}
+      <tr>
+        <td>{{id_aluno}}</td>
+        <td>{{nome_completo}}</td>
+        <td>{{usuario_acesso}}</td>
+        <td>{{email_aluno}}</td>
+        <td>{{observacao}}</td>
+        <td>{{data_cadastro}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

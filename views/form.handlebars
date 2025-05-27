@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Aluno</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f7f7f7;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: #cc0000;
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Aluno</h1>
+
+  {{#if success}}
+    <p class="success">{{success}}</p>
+  {{/if}}
+
+  {{#if db_error}}
+    <p class="error">{{db_error}}</p>
+  {{/if}}
+
+  {{#if errors}}
+    <ul class="error">
+      {{#each errors}}
+        <li>{{msg}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <form id="cadastroForm" method="POST" action="/alunos" novalidate>
+    <label for="nome_completo">Nome Completo *</label>
+    <input
+      type="text"
+      id="nome_completo"
+      name="nome_completo"
+      maxlength="100"
+      value="{{old.nome_completo}}"
+      required
+    />
+
+    <label for="usuario_acesso">Usuário de Acesso *</label>
+    <input
+      type="text"
+      id="usuario_acesso"
+      name="usuario_acesso"
+      maxlength="50"
+      value="{{old.usuario_acesso}}"
+      required
+    />
+
+    <label for="senha">Senha *</label>
+    <input
+      type="password"
+      id="senha"
+      name="senha"
+      maxlength="100"
+      required
+    />
+
+    <label for="email_aluno">Email *</label>
+    <input
+      type="email"
+      id="email_aluno"
+      name="email_aluno"
+      maxlength="100"
+      value="{{old.email_aluno}}"
+      required
+    />
+
+    <label for="observacao">Observação</label>
+    <textarea
+      id="observacao"
+      name="observacao"
+      maxlength="300"
+      rows="4"
+    >{{old.observacao}}</textarea>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <p><a href="/alunos">Ver lista de alunos cadastrados</a></p>
+
+  <script>
+    const form = document.getElementById('cadastroForm');
+
+    form.addEventListener('submit', function(event) {
+      const errors = [];
+
+      const oldErrors = document.querySelectorAll('.error-client');
+      oldErrors.forEach(e => e.remove());
+
+      if (!form.nome_completo.value.trim()) {
+        errors.push('O campo Nome Completo é obrigatório.');
+      }
+      if (!form.usuario_acesso.value.trim()) {
+        errors.push('O campo Usuário de Acesso é obrigatório.');
+      }
+      if (!form.senha.value.trim()) {
+        errors.push('O campo Senha é obrigatório.');
+      }
+      if (!form.email_aluno.value.trim()) {
+        errors.push('O campo Email é obrigatório.');
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(form.email_aluno.value)) {
+          errors.push('O formato do Email é inválido.');
+        }
+      }
+
+      if (errors.length > 0) {
+        event.preventDefault();
+
+        errors.forEach(msg => {
+          const p = document.createElement('p');
+          p.classList.add('error', 'error-client');
+          p.textContent = msg;
+          form.insertAdjacentElement('beforebegin', p);
+        });
+        window.scrollTo(0, 0);
+      }
+    });
+  </script>
+</body>
+</html>
